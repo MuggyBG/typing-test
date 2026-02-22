@@ -1,0 +1,602 @@
+[
+  {
+    "id": "csharp_01",
+    "content": "int myNumber = 10;",
+    "author": "Дефиниране на цяло число (Integer)",
+    "level": 51
+  },
+  {
+    "id": "csharp_02",
+    "content": "Console.WriteLine(\"Hello World\");",
+    "author": "Изписване на текст в конзолата",
+    "level": 52
+  },
+  {
+    "id": "csharp_03",
+    "content": "if (score > 100) { Win(); }",
+    "author": "Условна конструкция (If Statement)",
+    "level": 53
+  },
+  {
+    "author": "Else блок (Иначе)",
+    "content": "else { Console.WriteLine(\"Try again\"); }",
+    "id": "csharp_04",
+    "level": 54
+  },
+  {
+    "id": "csharp_05",
+    "content": "for (int i = 0; i < 5; i++) { }",
+    "author": "Цикъл For (брояч)",
+    "level": 55
+  },
+  {
+    "id": "csharp_06",
+    "content": "while (health > 0) { Play(); }",
+    "author": "Цикъл While (докато условието е вярно)",
+    "level": 56
+  },
+  {
+    "id": "csharp_07",
+    "content": "do { Process(); } while (isActive);",
+    "author": "Цикъл Do-While (изпълнява се поне веднъж)",
+    "level": 57
+  },
+  {
+    "id": "csharp_08",
+    "content": "switch (option) { case 1: break; }",
+    "author": "Конструкция Switch (избор на вариант)",
+    "level": 58
+  },
+  {
+    "id": "csharp_09",
+    "content": "bool isAlive = true;",
+    "author": "Булева променлива (True/False)",
+    "level": 59
+  },
+  {
+    "id": "csharp_10",
+    "content": "if (hasKey && level > 5)",
+    "author": "Логическо 'И' (AND)",
+    "level": 60
+  },
+  {
+    "id": "csharp_11",
+    "content": "if (isAdmin || isModerator)",
+    "author": "Логическо 'ИЛИ' (OR)",
+    "level": 61
+  },
+  {
+    "id": "csharp_12",
+    "content": "void Jump() { y += 10; }",
+    "author": "Дефиниране на метод (без връщане на стойност)",
+    "level": 62
+  },
+  {
+    "id": "csharp_13",
+    "content": "Jump();",
+    "author": "Извикване на метод",
+    "level": 63
+  },
+  {
+    "id": "csharp_14",
+    "content": "int Add(int a, int b) { return a + b; }",
+    "author": "Метод с параметри и връщане на резултат",
+    "level": 64
+  },
+  {
+    "id": "csharp_15",
+    "content": "double price = 19.99;",
+    "author": "Дробно число (Double)",
+    "level": 65
+  },
+  {
+    "id": "csharp_16",
+    "content": "string name = \"Player1\";",
+    "author": "Текстова променлива (String)",
+    "level": 66
+  },
+  {
+    "id": "csharp_17",
+    "content": "Console.ReadLine();",
+    "author": "Четене на вход от конзолата",
+    "level": 67
+  },
+  {
+    "id": "csharp_18",
+    "content": "int.Parse(\"123\");",
+    "author": "Парсване (преобразуване) на текст в число",
+    "level": 68
+  },
+  {
+    "id": "csharp_19",
+    "content": "$\"Score: {score}\"",
+    "author": "Интерполация на низове ($)",
+    "level": 69
+  },
+  {
+    "id": "csharp_20",
+    "content": "int[] numbers = { 1, 2, 3 };",
+    "author": "Масив от цели числа (Array)",
+    "level": 70
+  },
+  {
+    "id": "csharp_21",
+    "content": "int first = numbers[0];",
+    "author": "Достъп до елемент от масив по индекс",
+    "level": 71
+  },
+  {
+    "id": "csharp_22",
+    "content": "numbers.Length;",
+    "author": "Дължина на масив",
+    "level": 72
+  },
+  {
+    "id": "csharp_23",
+    "content": "foreach (var item in numbers) { }",
+    "author": "Цикъл Foreach (за обхождане на колекции)",
+    "level": 73
+  },
+  {
+    "id": "csharp_24",
+    "content": "List<string> names = new List<string>();",
+    "author": "Създаване на списък (List)",
+    "level": 74
+  },
+  {
+    "id": "csharp_25",
+    "content": "names.Add(\"Ivan\");",
+    "author": "Добавяне на елемент в списък",
+    "level": 75
+  },
+  {
+    "id": "csharp_26",
+    "content": "names.Remove(\"Ivan\");",
+    "author": "Премахване на елемент от списък",
+    "level": 76
+  },
+  {
+    "id": "csharp_27",
+    "content": "names.Contains(\"Ivan\");",
+    "author": "Проверка дали елемент съществува",
+    "level": 77
+  },
+  {
+    "id": "csharp_28",
+    "content": "class Player { }",
+    "author": "Дефиниране на клас",
+    "level": 78
+  },
+  {
+    "id": "csharp_29",
+    "content": "Player hero = new Player();",
+    "author": "Създаване на инстанция (Обект)",
+    "level": 79
+  },
+  {
+    "id": "csharp_30",
+    "content": "public int Health;",
+    "author": "Дефиниране на поле (Field)",
+    "level": 80
+  },
+  {
+    "id": "csharp_31",
+    "content": "public string Name { get; set; }",
+    "author": "Свойство (Property)",
+    "level": 81
+  },
+  {
+    "id": "csharp_32",
+    "content": "public Player() { Health = 100; }",
+    "author": "Конструктор на клас",
+    "level": 82
+  },
+  {
+    "id": "csharp_33",
+    "content": "private void Reset() { }",
+    "author": "Private модификатор за достъп",
+    "level": 83
+  },
+  {
+    "id": "csharp_34",
+    "content": "static void Main() { }",
+    "author": "Статичен метод",
+    "level": 84
+  },
+  {
+    "id": "csharp_35",
+    "content": "Math.Pow(2, 3);",
+    "author": "Използване на вградения клас Math",
+    "level": 85
+  },
+  {
+    "id": "csharp_36",
+    "content": "Random rand = new Random();",
+    "author": "Генератор на случайни числа",
+    "level": 86
+  },
+  {
+    "id": "csharp_37",
+    "content": "rand.Next(1, 100);",
+    "author": "Генериране на случайно число в диапазон",
+    "level": 87
+  },
+  {
+    "id": "csharp_38",
+    "content": "enum Days { Mon, Tue, Wed }",
+    "author": "Изброен тип (Enum)",
+    "level": 88
+  },
+  {
+    "id": "csharp_39",
+    "content": "try { int x = 0; int y = 5/x; }",
+    "author": "Try блок (опит за изпълнение)",
+    "level": 89
+  },
+  {
+    "id": "csharp_40",
+    "content": "catch (Exception ex) { }",
+    "author": "Catch блок (хващане на грешки)",
+    "level": 90
+  },
+  {
+    "id": "csharp_41",
+    "content": "class Enemy : Character",
+    "author": "Наследяване на клас (Inheritance)",
+    "level": 91
+  },
+  {
+    "id": "csharp_42",
+    "content": "base.Attack();",
+    "author": "Достъп до базовия клас (base)",
+    "level": 92
+  },
+  {
+    "id": "csharp_43",
+    "content": "public virtual void Move() { }",
+    "author": "Виртуален метод (Virtual)",
+    "level": 93
+  },
+  {
+    "id": "csharp_44",
+    "content": "public override void Move() { }",
+    "author": "Пренаписване на метод (Override)",
+    "level": 94
+  },
+  {
+    "id": "csharp_45",
+    "content": "abstract class Shape { }",
+    "author": "Абстрактен клас",
+    "level": 95
+  },
+  {
+    "id": "csharp_46",
+    "content": "interface IPlayable { void Play(); }",
+    "author": "Дефиниране на интерфейс",
+    "level": 96
+  },
+  {
+    "id": "csharp_47",
+    "content": "class Game : IPlayable",
+    "author": "Имплементиране на интерфейс",
+    "level": 97
+  },
+  {
+    "id": "csharp_48",
+    "content": "DateTime.Now;",
+    "author": "Текуща дата и час",
+    "level": 98
+  },
+  {
+    "id": "csharp_49",
+    "content": "var user = new { Name = \"X\" };",
+    "author": "Анонимен обект",
+    "level": 99
+  },
+  {
+    "id": "csharp_50",
+    "content": "x => x * 2",
+    "author": "Ламбда израз (Lambda Expression)",
+    "level": 100
+  },
+  {
+    "id": "csharp_51",
+    "content": "numbers.Where(x => x > 5);",
+    "author": "LINQ филтриране (Where)",
+    "level": 101
+  },
+  {
+    "id": "csharp_52",
+    "content": "numbers.Select(x => x * 2);",
+    "author": "LINQ проекция (Select)",
+    "level": 102
+  },
+  {
+    "id": "csharp_53",
+    "content": "numbers.First();",
+    "author": "LINQ взимане на първи елемент",
+    "level": 103
+  },
+  {
+    "id": "csharp_54",
+    "content": "numbers.ToList();",
+    "author": "Преобразуване към List",
+    "level": 104
+  },
+  {
+    "id": "csharp_55",
+    "content": "Dictionary<string, int> scores;",
+    "author": "Речник (Dictionary - ключ/стойност)",
+    "level": 105
+  },
+  {
+    "id": "csharp_56",
+    "content": "scores[\"Player1\"] = 100;",
+    "author": "Записване на стойност в речник",
+    "level": 106
+  },
+  {
+    "id": "csharp_57",
+    "content": "File.WriteAllText(\"log.txt\", \"Hi\");",
+    "author": "Запис във файл",
+    "level": 107
+  },
+  {
+    "id": "csharp_58",
+    "content": "File.ReadAllText(\"config.ini\");",
+    "author": "Четене от файл",
+    "level": 108
+  },
+  {
+    "id": "csharp_59",
+    "content": "async Task GetData() { }",
+    "author": "Асинхронен метод (Async/Task)",
+    "level": 109
+  },
+  {
+    "author": "Изчакване на асинхронна операция (Await)",
+    "content": "await GetData();",
+    "id": "csharp_60",
+    "level": 110
+  },
+  {
+    "id": "csharp_61",
+    "content": "public class Singleton {\n private static Singleton _instance;\n public static Singleton Instance => \n _instance ??= new Singleton();\n}",
+    "author": "Singleton Pattern (Единствена инстанция)",
+    "level": 111
+  },
+  {
+    "id": "csharp_62",
+    "content": "public int Factorial(int n) {\n if (n <= 1) return 1;\n return n * Factorial(n - 1);\n}",
+    "author": "Рекурсия (Факториел)",
+    "level": 112
+  },
+  {
+    "id": "csharp_63",
+    "content": "StringBuilder sb = new StringBuilder();\nfor (int i = 0; i < 100; i++) {\n sb.Append(i).Append(\", \");\n}\nstring result = sb.ToString();",
+    "author": "Оптимизация на текст (StringBuilder)",
+    "level": 113
+  },
+  {
+    "id": "csharp_64",
+    "content": "using (StreamWriter writer = new StreamWriter(\"file.txt\")) {\n writer.WriteLine(\"Log entry 1\");\n writer.WriteLine(\"Log entry 2\");\n}",
+    "author": "Using блок (Автоматично затваряне на ресурси)",
+    "level": 114
+  },
+  {
+    "id": "csharp_65",
+    "content": "public delegate void Notify();\npublic event Notify ProcessCompleted;\n\nprotected virtual void OnProcessCompleted() {\n ProcessCompleted?.Invoke();\n}",
+    "author": "Дефиниране на Event и Delegate",
+    "level": 115
+  },
+  {
+    "id": "csharp_66",
+    "content": "var students = new List<Student>();\nvar honorRoll = students\n .Where(s => s.Grade >= 5.50)\n .OrderBy(s => s.Name)\n .ToList();",
+    "author": "LINQ верига (Where + OrderBy)",
+    "level": 116
+  },
+  {
+    "id": "csharp_67",
+    "content": "Stack<string> history = new Stack<string>();\nhistory.Push(\"Page1\");\nhistory.Push(\"Page2\");\nstring lastPage = history.Pop();",
+    "author": "Работа със Стек (Stack - LIFO)",
+    "level": 117
+  },
+  {
+    "id": "csharp_68",
+    "content": "Queue<string> printerQueue = new Queue<string>();\nprinterQueue.Enqueue(\"Doc1.pdf\");\nprinterQueue.Enqueue(\"Doc2.pdf\");\nstring nextDoc = printerQueue.Dequeue();",
+    "author": "Работа с Опашка (Queue - FIFO)",
+    "level": 118
+  },
+  {
+    "id": "csharp_69",
+    "content": "public static class StringExtensions {\n public static bool IsCapitalized(this string s) {\n return !string.IsNullOrEmpty(s) && char.IsUpper(s[0]);\n }\n}",
+    "author": "Extension Method (Разширяващ метод)",
+    "level": 119
+  },
+  {
+    "id": "csharp_70",
+    "content": "int[] arr = { 5, 2, 9, 1 };\nArray.Sort(arr);\nforeach (int i in arr) {\n Console.Write(i + \" \");\n}",
+    "author": "Сортиране на масив",
+    "level": 120
+  },
+  {
+    "id": "csharp_71",
+    "content": "string message = status switch {\n \"Active\" => \"System running\",\n \"Error\" => \"System failed\",\n _ => \"Unknown status\"\n};",
+    "author": "Switch Expression (Модерен Switch)",
+    "level": 121
+  },
+  {
+    "id": "csharp_72",
+    "content": "public (int, string) GetDetails() {\n return (1, \"Alpha\");\n}\n\nvar (id, label) = GetDetails();",
+    "author": "Tuples (Връщане на множество стойности)",
+    "level": 122
+  },
+  {
+    "id": "csharp_73",
+    "content": "public record Person(string FirstName, string LastName);\n\nvar p1 = new Person(\"Ivan\", \"Ivanov\");\nvar p2 = p1 with { LastName = \"Petrov\" };",
+    "author": "C# Records (Непроменими обекти)",
+    "level": 123
+  },
+  {
+    "id": "csharp_74",
+    "content": "Dictionary<int, string> products = new Dictionary<int, string>();\nif (products.TryGetValue(101, out string productName)) {\n Console.WriteLine(productName);\n}",
+    "author": "Dictionary TryGetValue (Безопасно четене)",
+    "level": 124
+  },
+  {
+    "id": "csharp_75",
+    "content": "Task<int> t1 = Task.Run(() => 10);\nTask<int> t2 = Task.Run(() => 20);\nint[] results = await Task.WhenAll(t1, t2);",
+    "author": "Паралелно изпълнение (Task.WhenAll)",
+    "level": 125
+  },
+  {
+    "id": "csharp_76",
+    "content": "string jsonString = JsonSerializer.Serialize(myObject);\nMyClass obj = JsonSerializer.Deserialize<MyClass>(jsonString);",
+    "author": "JSON Сериализация (System.Text.Json)",
+    "level": 126
+  },
+  {
+    "id": "csharp_77",
+    "content": "Func<int, int, int> multiply = (x, y) => x * y;\nint result = multiply(5, 4);",
+    "author": "Func Делегат (Функция в променлива)",
+    "level": 127
+  },
+  {
+    "id": "csharp_78",
+    "content": "Action<string> log = msg => Console.WriteLine($\"Log: {msg}\");\nlog(\"System started\");",
+    "author": "Action Делегат (Процедура в променлива)",
+    "level": 128
+  },
+  {
+    "id": "csharp_79",
+    "content": "public class Box<T> {\n public T Content { get; set; }\n public Box(T content) { Content = content; }\n}",
+    "author": "Generics (Обобщени класове <T>)",
+    "level": 129
+  },
+  {
+    "id": "csharp_80",
+    "content": "try {\n ProcessData();\n} catch (IOException ex) {\n Log(ex.Message);\n} finally {\n CloseConnections();\n}",
+    "author": "Try-Catch-Finally (Пълна обработка)",
+    "level": 130
+  },
+  {
+    "id": "csharp_81",
+    "content": "var groups = items.GroupBy(x => x.Category);\nforeach (var group in groups) {\n Console.WriteLine($\"{group.Key}: {group.Count()}\");\n}",
+    "author": "LINQ GroupBy (Групиране на данни)",
+    "level": 131
+  },
+  {
+    "id": "csharp_82",
+    "content": "public IEnumerable<int> GetNumbers() {\n yield return 1;\n yield return 2;\n yield return 3;\n}",
+    "author": "Yield Return (Мързеливо изброяване)",
+    "level": 132
+  },
+  {
+    "id": "csharp_83",
+    "content": "private string _name;\npublic string Name {\n get { return _name; }\n set { _name = value ?? \"Unknown\"; }\n}",
+    "author": "Full Property Logic (Свойства с логика)",
+    "level": 133
+  },
+  {
+    "id": "csharp_84",
+    "content": "if (obj is Person p && p.Age > 18) {\n Console.WriteLine($\"{p.Name} is an adult.\");\n}",
+    "author": "Pattern Matching (Is проверка)",
+    "level": 134
+  },
+  {
+    "id": "csharp_85",
+    "content": "string? input = GetInput();\nstring valid = input ?? \"Default Value\";",
+    "author": "Null Coalescing Operator (??)",
+    "level": 135
+  },
+  {
+    "id": "csharp_86",
+    "content": "public class GameLevel {\n private string[] map = new string[10];\n public string this[int index] {\n get => map[index];\n set => map[index] = value;\n }\n}",
+    "author": "Indexer (Достъп като масив)",
+    "level": 136
+  },
+  {
+    "id": "csharp_87",
+    "content": "HttpClient client = new HttpClient();\nstring response = await client.GetStringAsync(\"https://api.com/data\");",
+    "author": "HTTP Request (Заявка към уеб сайт)",
+    "level": 137
+  },
+  {
+    "id": "csharp_88",
+    "content": "enum TrafficLight { Red, Yellow, Green }\nTrafficLight current = TrafficLight.Red;\nint value = (int)current;",
+    "author": "Enum Casting (Преобразуване на Enum)",
+    "level": 138
+  },
+  {
+    "id": "csharp_89",
+    "content": "Parallel.For(0, 100, i => {\n ProcessImage(i);\n});",
+    "author": "Parallel For (Многонишково изпълнение)",
+    "level": 139
+  },
+  {
+    "author": "Anonymous Types (Вложени анонимни типове)",
+    "content": "var config = new {\n Version = 1.0,\n Mode = \"Debug\",\n Settings = new { Audio = true }\n};",
+    "id": "csharp_90",
+    "level": 140
+  },
+  {
+    "id": "csharp_91",
+    "content": "public class ServiceContainer {\n    private Dictionary<Type, object> _services = new Dictionary<Type, object>();\n\n    public void Register<T>(T service) {\n        _services[typeof(T)] = service;\n    }\n\n    public T Resolve<T>() {\n        return (T)_services[typeof(T)];\n    }\n}",
+    "author": "Базов Dependency Injection (DI) Контейнер",
+    "level": 141
+  },
+  {
+    "id": "csharp_92",
+    "content": "public sealed class Database {\n    private static Database _instance = null;\n    private static readonly object _padlock = new object();\n\n    public static Database Instance {\n        get {\n            lock (_padlock) {\n                if (_instance == null) {\n                    _instance = new Database();\n                }\n                return _instance;\n            }\n        }\n    }\n}",
+    "author": "Thread-Safe Singleton (С заключване)",
+    "level": 142
+  },
+  {
+    "id": "csharp_93",
+    "content": "public class Resource : IDisposable {\n    private bool _disposed = false;\n\n    public void Dispose() {\n        Dispose(true);\n        GC.SuppressFinalize(this);\n    }\n\n    protected virtual void Dispose(bool disposing) {\n        if (!_disposed) {\n            if (disposing) { /* Освободи управлявани ресурси */ }\n            _disposed = true;\n        }\n    }\n}",
+    "author": "IDisposable Pattern (Правилно почистване на памет)",
+    "level": 143
+  },
+  {
+    "id": "csharp_94",
+    "content": "public async IAsyncEnumerable<int> GenerateAsync() {\n    for (int i = 0; i < 10; i++) {\n        await Task.Delay(100);\n        yield return i;\n    }\n}\n\npublic async Task Consume() {\n    await foreach (var number in GenerateAsync()) {\n        Console.WriteLine(number);\n    }\n}",
+    "author": "Async Streams (IAsyncEnumerable / yield return)",
+    "level": 144
+  },
+  {
+    "id": "csharp_95",
+    "content": "public static T DeepCopy<T>(T item) {\n    using (var ms = new MemoryStream()) {\n        var formatter = new BinaryFormatter();\n        formatter.Serialize(ms, item);\n        ms.Seek(0, SeekOrigin.Begin);\n        return (T)formatter.Deserialize(ms);\n    }\n}\n// Забележка: Изисква класовете да са [Serializable]",
+    "author": "Дълбоко копиране на обект (Deep Copy)",
+    "level": 145
+  },
+  {
+    "id": "csharp_96",
+    "content": "public int BinarySearch(int[] arr, int target) {\n    int left = 0, right = arr.Length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}",
+    "author": "Алгоритъм за двоично търсене (Binary Search)",
+    "level": 146
+  },
+  {
+    "id": "csharp_97",
+    "content": "public class Subject {\n    public event Action<string> OnChange;\n\n    public void UpdateState(string newState) {\n        Console.WriteLine($\"State changed to: {newState}\");\n        OnChange?.Invoke(newState);\n    }\n}\n\n// Usage:\n// subject.OnChange += msg => Console.WriteLine(\"Observer notified\");",
+    "author": "Observer Pattern (Събития и абонати)",
+    "level": 147
+  },
+  {
+    "id": "csharp_98",
+    "content": "public void AnalyzeObject(object obj) {\n    Type type = obj.GetType();\n    Console.WriteLine($\"Class: {type.Name}\");\n\n    foreach (PropertyInfo prop in type.GetProperties()) {\n        object value = prop.GetValue(obj);\n        Console.WriteLine($\"Property: {prop.Name} = {value}\");\n    }\n}",
+    "author": "Reflection (Динамичен анализ на обект)",
+    "level": 148
+  },
+  {
+    "id": "csharp_99",
+    "content": "public interface IStrategy { void Execute(); }\n\npublic class AttackStrategy : IStrategy {\n    public void Execute() => Console.WriteLine(\"Attacking!\");\n}\n\npublic class Context {\n    private IStrategy _strategy;\n    public Context(IStrategy strategy) => _strategy = strategy;\n    public void DoAction() => _strategy.Execute();\n}",
+    "author": "Strategy Pattern (Смяна на поведение)",
+    "level": 149
+  },
+  {
+    "id": "csharp_100",
+    "content": "var query = from student in students\n            join score in scores on student.Id equals score.StudentId\n            group score by student.Name into g\n            select new {\n                Name = g.Key,\n                Average = g.Average(x => x.Value)\n            };\n\nforeach (var result in query) {\n    Console.WriteLine($\"{result.Name}: {result.Average:F2}\");\n}",
+    "author": "Комплексен LINQ (Join + Group By)",
+    "level": 150
+  }
+]

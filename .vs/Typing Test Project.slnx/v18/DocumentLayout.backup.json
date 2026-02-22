@@ -1,0 +1,44 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Mugetsu\\source\\repos\\VSP_2429\\VSP_2429_MyProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|c:\\users\\mugetsu\\source\\repos\\vsp_2429\\vsp_2429_myproject\\typingtestproj\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|solutionrelative:typingtestproj\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Mugetsu\\source\\repos\\VSP_2429\\VSP_2429_MyProject\\TypingTestProj\\Form1.cs",
+              "RelativeDocumentMoniker": "TypingTestProj\\Form1.cs",
+              "ToolTip": "C:\\Users\\Mugetsu\\source\\repos\\VSP_2429\\VSP_2429_MyProject\\TypingTestProj\\Form1.cs [Design]",
+              "RelativeToolTip": "TypingTestProj\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-22T16:42:10.523Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
