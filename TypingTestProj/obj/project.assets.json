@@ -61,11 +61,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mugetsu\\source\\repos\\VSP_2429\\VSP_2429_MyProject\\TypingTestProj\\Typing Test Project.csproj",
+      "projectUniqueName": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Typing Test Project.csproj",
       "projectName": "Typing Test Project",
-      "projectPath": "C:\\Users\\Mugetsu\\source\\repos\\VSP_2429\\VSP_2429_MyProject\\TypingTestProj\\Typing Test Project.csproj",
+      "projectPath": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Typing Test Project.csproj",
       "packagesPath": "C:\\Users\\Mugetsu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mugetsu\\source\\repos\\VSP_2429\\VSP_2429_MyProject\\TypingTestProj\\obj\\",
+      "outputPath": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -84,6 +84,7 @@
       },
       "frameworks": {
         "net10.0-windows7.0": {
+          "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
           "projectReferences": {}
         }
@@ -98,10 +99,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0-windows7.0": {
+        "framework": "net10.0-windows7.0",
         "targetAlias": "net10.0-windows",
         "dependencies": {
           "Newtonsoft.Json": {
@@ -128,7 +130,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

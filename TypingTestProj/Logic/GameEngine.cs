@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Net;
 using Newtonsoft.Json;
 using TypingTest_Project.Models;
 
@@ -18,49 +11,35 @@ namespace TypingTest_Project.Logic
         private const string HistoryFileName = "history_cache.json";
         private const string CodeLevelsFileName = "code_levels.json";
 
-
-
         private readonly HttpClient _httpClient;
-        private List<LevelData> _codeLevelsCache;
-        private List<string> _usedIdsInSession;
+        private List<LevelData> codeLevelsCache;
+        private HashSet<string> usedIdsInSession;
+        private readonly Random _random = new Random();
 
-        private readonly string _basePath;
-        private readonly string _dataDir;
-        private readonly string _historyPath;
-        private readonly string _codeLevelsPath;
+        private readonly string basePath;
+        private readonly string dataDir;
+        private readonly string historyPath;
+        private readonly string codeLevelsPath;
 
         public GameEngine()
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-
-            var handler = new HttpClientHandler();
-            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            handler.ServerCertificateCustomValidationCallback =
-                (httpRequestMessage, cert, cetChain, policyErrors) =>
-                {
-                    return true;
-                };
-
-            _httpClient = new HttpClient(handler);
-
-            _usedIdsInSession = new List<string>();
-
-            _basePath = AppDomain.CurrentDomain.BaseDirectory;
-            _dataDir = Path.Combine(_basePath, DataDirName);
-            _historyPath = ResolveFilePath(HistoryFileName);
-            _codeLevelsPath = ResolveFilePath(CodeLevelsFileName);
+            _httpClient = new HttpClient();
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "TypingTestApp/Project");
+            usedIdsInSession = new HashSet<string>();
+            basePath = AppDomain.CurrentDomain.BaseDirectory;
+            dataDir = Path.Combine(basePath, DataDirName);
+            historyPath = ResolveFilePath(HistoryFileName);
+            codeLevelsPath = ResolveFilePath(CodeLevelsFileName);
 
             LoadCodeLevels();
         }
 
         private string ResolveFilePath(string fileName)
         {
-            string inData = Path.Combine(_dataDir, fileName);
+            string inData = Path.Combine(dataDir, fileName);
             if (File.Exists(inData)) return inData;
 
-            string inRoot = Path.Combine(_basePath, fileName);
+            string inRoot = Path.Combine(basePath, fileName);
             return inRoot;
         }
         public async Task<LevelData> GetLevelAsync(int levelNumber, LevelType type)
@@ -69,66 +48,41 @@ namespace TypingTest_Project.Logic
             {
                 return GetCodeLevel(levelNumber);
             }
-            else
-            {
-                if (InternetCheck()) 
-                {
-                    return await GetQuoteFromApiAsync(levelNumber);
-                }
-                else
-                {
-                    return GetQuoteFromOfflineCache(levelNumber);
-                }
-            }
-        }
-        private bool InternetCheck()
-        {
-            try
-            {
-                using (var client = new WebClient())
-                using (client.OpenRead("http://clients3.google.com/generate_204"))
-                {
-                    return true;
-                }
-            }
-            catch { return false; }
+            else 
+         return await GetQuoteFromApiAsync(levelNumber);
         }
         private void LoadCodeLevels()
         {
-            if (File.Exists(_codeLevelsPath))
+            if (File.Exists(codeLevelsPath))
             {
                 try
                 {
-                    string json = File.ReadAllText(_codeLevelsPath);
-                    _codeLevelsCache = JsonConvert.DeserializeObject<List<LevelData>>(json);
+                    string json = File.ReadAllText(codeLevelsPath);
+                    codeLevelsCache = JsonConvert.DeserializeObject<List<LevelData>>(json);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show($"JSON Error: {ex.Message}");
-                    _codeLevelsCache = new List<LevelData>();
+                    codeLevelsCache = new List<LevelData>();
                 }
             }
             else
             {
-                MessageBox.Show($"File not found at: {_codeLevelsPath}");
-                _codeLevelsCache = new List<LevelData>();
+                codeLevelsCache = new List<LevelData>();
             }
         }
 
         private LevelData GetCodeLevel(int levelNumber)
         {
-            var level = _codeLevelsCache.FirstOrDefault(x => x.LevelNumber == levelNumber);
+            var level = codeLevelsCache.FirstOrDefault(x => x.LevelNumber == levelNumber);
 
             if (level != null)
             {
                 level.Type = LevelType.CodeSnippet;
                 return level;
             }
-
-            // za niva nad dostupnite, vrushtame random
-            if (_codeLevelsCache != null && _codeLevelsCache.Count > 0)
+            if (codeLevelsCache != null && codeLevelsCache.Count > 0)
             {
-                var randomLevel = _codeLevelsCache[new Random().Next(_codeLevelsCache.Count)];
+                var randomLevel = codeLevelsCache[_random.Next(codeLevelsCache.Count)];
                 return new LevelData
                 {
                     Id = randomLevel.Id,
@@ -165,62 +119,52 @@ namespace TypingTest_Project.Logic
                 SaveToHistoryCache(newLevel);
                 return newLevel;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show($"API Error: {ex.Message}\n\nInner: {ex.InnerException?.Message}", "Debug Info");
                 return GetQuoteFromOfflineCache(levelNumber);
             }
         }
 
         private LevelData GetQuoteFromOfflineCache(int levelNumber)
         {
-            if (!File.Exists(_historyPath))
+            if (!File.Exists(historyPath))
             {
                 throw new Exception("No internet connection and no offline cache found.\nPlease connect to the internet for the first run.");
             }
-            string json = File.ReadAllText(_historyPath);
+            string json = File.ReadAllText(historyPath);
             var history = JsonConvert.DeserializeObject<List<LevelData>>(json);
             if (history == null || history.Count == 0)
             {
                 throw new Exception("Offline cache is empty.");
             }
-            var availableLevels = history.Where(x => !_usedIdsInSession.Contains(x.Id)).ToList();
+            var availableLevels = history.Where(x => !usedIdsInSession.Contains(x.Id)).ToList();
             if (availableLevels.Count == 0)
             {
-                _usedIdsInSession.Clear();
+                usedIdsInSession.Clear();
                 availableLevels = history;
             }
-            Random rnd = new Random();
-            var selected = availableLevels[rnd.Next(availableLevels.Count)];
-            _usedIdsInSession.Add(selected.Id);
+            var selected = availableLevels[_random.Next(availableLevels.Count)];
+            usedIdsInSession.Add(selected.Id);
             selected.LevelNumber = levelNumber; 
             return selected;
         }
 
-        private void SaveToHistoryCache(LevelData data)
-        {
-            try
-            {
-                List<LevelData> history;
-                Directory.CreateDirectory(_dataDir);
-                if (File.Exists(_historyPath))
-                {
-                    string json = File.ReadAllText(_historyPath);
-                    history = JsonConvert.DeserializeObject<List<LevelData>>(json) ?? new List<LevelData>();
-                }
-                else
-                {
-                    history = new List<LevelData>();
-                }
 
-                if (!history.Any(x => x.Id == data.Id))
-                {
-                    data.LevelNumber = 0;
-                    history.Add(data);
-                    var writePath = Path.Combine(_dataDir, HistoryFileName);
-                    File.WriteAllText(writePath, JsonConvert.SerializeObject(history, Formatting.Indented));
-                }
+        public void SaveToHistoryCache(LevelData data)
+        {
+            var history = new List<LevelData>();
+            if (File.Exists(historyPath))
+            {
+                string json = File.ReadAllText(historyPath);
+                history = JsonConvert.DeserializeObject<List<LevelData>>(json) ?? new();
             }
-            catch { }
+
+            if (!history.Any(x => x.Id == data.Id))
+            {
+                history.Add(data);
+                File.WriteAllText(historyPath, JsonConvert.SerializeObject(history, Formatting.Indented));
+            }
         }
     }
 }

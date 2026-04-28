@@ -16,20 +16,22 @@ namespace TypingTest_Project
     public partial class MainForm : Form
     {
         private const string startPromptText = "Begin typing to start.";
-        private bool _startPromptIsShown = false;
+        private bool startPromptIsShown = false;
         private const int maxLines = 8;
         private const double PreloadNextLevelWhenRemainingFraction = 0.30;
         private sealed record Level(int LevelNumber, string Text);
-        private readonly Queue<Level> _pendingLines = new();
-        private Level? _currentLine = null;
-        private readonly Dictionary<int, LevelData> _levelInfoByNumber = new();
-        private Task<LevelData>? _nextLevelTask = null;
-        private int _totalLinesInCurrentLevel = 0;
-        private bool _hotkeyLevelSkip = false;
-        private bool _hotkeyLevelReroll = false;
+        private readonly Queue<Level> 
+            
+        _pendingLines = new();
+        private Level? currentLine = null;
+        private readonly Dictionary<int, LevelData> levelInfoByNumber = new();
+        private Task<LevelData>? nextLevelTask = null;
+        private int totalLinesInCurrentLevel = 0;
+        private bool hotkeyLevelSkip = false;
+        private bool hotkeyLevelReroll = false;
 
-        private string? _completedLinePendingDrop = null;
-        private readonly ScoreStorage _scoreStorage = new ScoreStorage();
+        private string? completedLinePendingDrop = null;
+        private readonly ScoreStorage scoreStorage = new ScoreStorage();
 
         private bool _isDarkMode = true;
         private GameEngine _engine;
@@ -199,20 +201,20 @@ namespace TypingTest_Project
         private void InitializeLevelBuffer(int levelNumber, LevelData level)
         {
             _pendingLines.Clear();
-            _levelInfoByNumber.Clear();
-            _nextLevelTask = null;
-            _totalLinesInCurrentLevel = 0;
-            _completedLinePendingDrop = null;
+            levelInfoByNumber.Clear();
+            nextLevelTask = null;
+            totalLinesInCurrentLevel = 0;
+            completedLinePendingDrop = null;
 
-            _levelInfoByNumber[levelNumber] = level;
+            levelInfoByNumber[levelNumber] = level;
 
             foreach (var line in SplitIntoLines(level.Content))
             {
                 _pendingLines.Enqueue(new Level(levelNumber, line));
-                _totalLinesInCurrentLevel++;
+                totalLinesInCurrentLevel++;
             }
 
-            _currentLine = _pendingLines.Count > 0 ? _pendingLines.Dequeue() : new Level(levelNumber, "");
+            currentLine = _pendingLines.Count > 0 ? _pendingLines.Dequeue() : new Level(levelNumber, "");
 
             RemoveInputPlaceholder();
             rtbInput.Text = "";
@@ -308,7 +310,7 @@ namespace TypingTest_Project
             rtbTarget.BackColor = bg;
             rtbTarget.ForeColor = targetDefault;
             rtbInput.BackColor = bg;
-            rtbInput.ForeColor = _startPromptIsShown ? ThemeColor.PlaceholderText : text;
+            rtbInput.ForeColor = startPromptIsShown ? ThemeColor.PlaceholderText : text;
 
             btnThemeToggle.ForeColor = text;
             btnThemeToggle.BackColor = panel;
@@ -348,11 +350,11 @@ namespace TypingTest_Project
         private void rtbInput_TextChanged(object sender, EventArgs e)
         {
             if (!_isGameRunning) return;
-            if (_startPromptIsShown) return;
+            if (startPromptIsShown) return;
             UpdateTargetDisplayAndHighlight();
-            if (_currentLine != null)
+            if (currentLine != null)
             {
-                var targetLine = _currentLine.Text;
+                var targetLine = currentLine.Text;
                 if (rtbInput.Text.Length >= targetLine.Length && targetLine.Length > 0)
                 {
                     TryAdvanceLine(forceCorrect: false);
@@ -362,24 +364,24 @@ namespace TypingTest_Project
 
         private void UpdateTargetDisplayAndHighlight()
         {
-            if (_currentLine == null) return;
+            if (currentLine == null) return;
             MaybePrefetchNextLevel();
-            if (_currentLevel?.Type == LevelType.CodeSnippet && _completedLinePendingDrop != null)
+            if (_currentLevel?.Type == LevelType.CodeSnippet && completedLinePendingDrop != null)
             {
-                int dropAt = Math.Max(1, _currentLine.Text.Length / 2);
+                int dropAt = Math.Max(1, currentLine.Text.Length / 2);
                 if (rtbInput.Text.Length >= dropAt)
                 {
-                    _completedLinePendingDrop = null;
+                    completedLinePendingDrop = null;
                 }
             }
             var lines = new List<string>(maxLines);
             int highlightOffset = 0;
-            if (!string.IsNullOrEmpty(_completedLinePendingDrop) && _currentLevel?.Type == LevelType.CodeSnippet)
+            if (!string.IsNullOrEmpty(completedLinePendingDrop) && _currentLevel?.Type == LevelType.CodeSnippet)
             {
-                lines.Add(_completedLinePendingDrop);
-                highlightOffset = _completedLinePendingDrop.Length + 1; 
+                lines.Add(completedLinePendingDrop);
+                highlightOffset = completedLinePendingDrop.Length + 1; 
             }
-            lines.Add(_currentLine.Text);
+            lines.Add(currentLine.Text);
             foreach (var l in _pendingLines.Take(maxLines - lines.Count))
             {
                 lines.Add(l.Text);
@@ -390,7 +392,7 @@ namespace TypingTest_Project
                 rtbTarget.Text = newTargetText;
             }
             string typed = rtbInput.Text;
-            string targetLine = _currentLine.Text;
+            string targetLine = currentLine.Text;
             int max = Math.Min(typed.Length, targetLine.Length);
             SuspendDrawing(rtbTarget);
             int savedStart = rtbTarget.SelectionStart;
@@ -415,14 +417,14 @@ namespace TypingTest_Project
         private void TryAdvanceLine(bool forceCorrect)
         {
             if (!_isGameRunning) return;
-            if (_currentLine == null) return;
+            if (currentLine == null) return;
 
-            string targetLine = _currentLine.Text;
+            string targetLine = currentLine.Text;
             string typed = forceCorrect ? targetLine : rtbInput.Text;
             _totalSessionErrors += CountLineErrors(typed, targetLine);
             _totalCharsTyped += Math.Min(typed.Length, Math.Max(0, targetLine.Length));
 
-            _completedLinePendingDrop = _currentLevel?.Type == LevelType.CodeSnippet ? targetLine : null;
+            completedLinePendingDrop = _currentLevel?.Type == LevelType.CodeSnippet ? targetLine : null;
 
             if (_pendingLines.Count == 0)
             {
@@ -432,12 +434,12 @@ namespace TypingTest_Project
 
             var next = _pendingLines.Dequeue();
             bool levelChanged = next.LevelNumber != _currentLevelNumber;
-            _currentLine = next;
+            currentLine = next;
 
-            if (levelChanged && _levelInfoByNumber.TryGetValue(_currentLevelNumber, out var prevLevel))
+            if (levelChanged && levelInfoByNumber.TryGetValue(_currentLevelNumber, out var prevLevel))
             {
                 _currentLevelNumber = next.LevelNumber;
-                if (_levelInfoByNumber.TryGetValue(_currentLevelNumber, out var newLevel))
+                if (levelInfoByNumber.TryGetValue(_currentLevelNumber, out var newLevel))
                 {
                     _currentLevel = newLevel;
                     labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
@@ -469,24 +471,24 @@ namespace TypingTest_Project
 
         private async void MaybePrefetchNextLevel()
         {
-            if (_currentLine == null) return;
-            if (_nextLevelTask != null) return;
+            if (currentLine == null) return;
+            if (nextLevelTask != null) return;
 
-            int remainingInCurrentLevel = (_currentLine.LevelNumber == _currentLevelNumber ? 1 : 0)
+            int remainingInCurrentLevel = (currentLine.LevelNumber == _currentLevelNumber ? 1 : 0)
                 + _pendingLines.Count(l => l.LevelNumber == _currentLevelNumber);
 
-            int totalInCurrentLevel = Math.Max(1, _totalLinesInCurrentLevel);
+            int totalInCurrentLevel = Math.Max(1, totalLinesInCurrentLevel);
             double remainingFraction = remainingInCurrentLevel / (double)totalInCurrentLevel;
             if (remainingFraction > PreloadNextLevelWhenRemainingFraction) return;
 
             int nextLevelNumber = _currentLevelNumber + 1;
             LevelType typeToLoad = DetermineLevelType();
 
-            _nextLevelTask = _engine.GetLevelAsync(nextLevelNumber, typeToLoad);
+            nextLevelTask = _engine.GetLevelAsync(nextLevelNumber, typeToLoad);
             try
             {
-                var nextLevel = await _nextLevelTask;
-                _levelInfoByNumber[nextLevelNumber] = nextLevel;
+                var nextLevel = await nextLevelTask;
+                levelInfoByNumber[nextLevelNumber] = nextLevel;
                 if (nextLevel.Type == LevelType.CodeSnippet)
                 {
                     _pendingLines.Enqueue(new Level(nextLevelNumber, ""));
@@ -502,18 +504,18 @@ namespace TypingTest_Project
         private void SkipLevelHotkeyNoob()
         {
             if (!_isGameRunning) return;
-            if (_hotkeyLevelSkip) return;
+            if (hotkeyLevelSkip) return;
 
-            _hotkeyLevelSkip = true;
+            hotkeyLevelSkip = true;
             try
             {
                 labLastScore.Text = $"Level {_currentLevelNumber} Skipped (F3). GET GOOD?";
                 labLastScore.ForeColor = Color.Gold;
 
                 _pendingLines.Clear();
-                _currentLine = null;
-                _nextLevelTask = null;
-                _totalLinesInCurrentLevel = 0;
+                currentLine = null;
+                nextLevelTask = null;
+                totalLinesInCurrentLevel = 0;
                 _lastInputLength = 0;
                 rtbInput.Text = "";
 
@@ -522,7 +524,7 @@ namespace TypingTest_Project
             }
             finally
             {
-                _hotkeyLevelSkip = false;
+                hotkeyLevelSkip = false;
             }
         }
 
@@ -535,19 +537,19 @@ namespace TypingTest_Project
         private async Task RerollLevelAsync()
         {
             if (!_isGameRunning) return;
-            if (_hotkeyLevelReroll) return;
+            if (hotkeyLevelReroll) return;
 
-            _hotkeyLevelReroll = true;
+            hotkeyLevelReroll = true;
             try
             {
                 labLastScore.Text = $"Level {_currentLevelNumber}. Rerolled Line";
                 labLastScore.ForeColor = Color.Gold;
 
                 _pendingLines.Clear();
-                _currentLine = null;
-                _nextLevelTask = null;
-                _totalLinesInCurrentLevel = 0;
-                _completedLinePendingDrop = null;
+                currentLine = null;
+                nextLevelTask = null;
+                totalLinesInCurrentLevel = 0;
+                completedLinePendingDrop = null;
                 _lastInputLength = 0;
                 rtbInput.Text = "";
 
@@ -564,14 +566,14 @@ namespace TypingTest_Project
             }
             finally
             {
-                _hotkeyLevelReroll = false;
+                hotkeyLevelReroll = false;
             }
         }
 
         private void UpdateStats()
         {
             double minutes = _secondsElapsed / 60.0;
-            int charsTypedCurrent = _startPromptIsShown ? 0 : rtbInput.Text.Length;
+            int charsTypedCurrent = startPromptIsShown ? 0 : rtbInput.Text.Length;
             int totalCharsSoFar = _totalCharsTyped + charsTypedCurrent;
             labAccuracy.Text = $"Accuracy: {GetAccuracyPercent():0.0}%";
             labLevel.Text = $"Level {_currentLevelNumber}";
@@ -581,13 +583,13 @@ namespace TypingTest_Project
         {
             double minutes = _secondsElapsed / 60.0;
             if (minutes <= 0) return 0;
-            int chars = (_startPromptIsShown ? 0 : rtbInput.Text.Length) + _totalCharsTyped;
+            int chars = (startPromptIsShown ? 0 : rtbInput.Text.Length) + _totalCharsTyped;
             return (int)((chars / 5.0) / minutes);
         }
 
         private double GetAccuracyPercent()
         {
-            int chars = (_startPromptIsShown ? 0 : rtbInput.Text.Length) + _totalCharsTyped;
+            int chars = (startPromptIsShown ? 0 : rtbInput.Text.Length) + _totalCharsTyped;
             if (chars <= 0) return 100.0;
             double correct = Math.Max(0, chars - _totalSessionErrors);
             return (correct / chars) * 100.0;
@@ -607,7 +609,7 @@ namespace TypingTest_Project
                     Errors = _totalSessionErrors,
                     Timestamp = DateTime.Now
                 };
-                _scoreStorage.SaveScore(entry);
+                scoreStorage.SaveScore(entry);
             }
             catch { }
         }
@@ -652,7 +654,7 @@ namespace TypingTest_Project
             if (_isGameRunning) return;
             if (rtbInput.Focused) return;
 
-            _startPromptIsShown = true;
+            startPromptIsShown = true;
             rtbInput.Text = startPromptText;
             rtbInput.SelectionStart = 0;
             rtbInput.SelectionLength = 0;
@@ -662,9 +664,9 @@ namespace TypingTest_Project
 
         private void RemoveInputPlaceholder()
         {
-            if (!_startPromptIsShown) return;
+            if (!startPromptIsShown) return;
 
-            _startPromptIsShown = false;
+            startPromptIsShown = false;
             rtbInput.Text = "";
             rtbInput.ReadOnly = false;
             ApplyTheme(); 
@@ -683,7 +685,7 @@ namespace TypingTest_Project
                     return;
                 }
 
-                if (_startPromptIsShown)
+                if (startPromptIsShown)
                 {
                     RemoveInputPlaceholder();
                 }

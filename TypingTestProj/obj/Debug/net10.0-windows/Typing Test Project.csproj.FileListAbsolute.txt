@@ -21,3 +21,27 @@ C:\Users\Mugetsu\source\repos\VSP_2429\VSP_2429_MyProject\TypingTestProj\obj\Deb
 C:\Users\Mugetsu\source\repos\VSP_2429\VSP_2429_MyProject\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.pdb
 C:\Users\Mugetsu\source\repos\VSP_2429\VSP_2429_MyProject\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.genruntimeconfig.cache
 C:\Users\Mugetsu\source\repos\VSP_2429\VSP_2429_MyProject\TypingTestProj\obj\Debug\net10.0-windows\ref\Typing Test Project.dll
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.exe
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Data\code_levels.json
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Data\history_cache.json
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.deps.json
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.runtimeconfig.json
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.dll
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.pdb
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Newtonsoft.Json.dll
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.csproj.AssemblyReference.cache
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\TypingTest_Project.MainForm.resources
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\TypingTest_Project.ResultForm.resources
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\TypingTest_Project.ScoreForm.resources
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.csproj.GenerateResource.cache
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.AssemblyInfoInputs.cache
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.AssemblyInfo.cs
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.csproj.CoreCompileInputs.cache
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.sourcelink.json
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing T.8B4B7BD9.Up2Date
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.dll
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\refint\Typing Test Project.dll
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.pdb
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.genruntimeconfig.cache
+C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\ref\Typing Test Project.dll
