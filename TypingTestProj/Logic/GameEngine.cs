@@ -23,7 +23,14 @@ namespace TypingTest_Project.Logic
 
         public GameEngine()
         {
-            _httpClient = new HttpClient();
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+            _httpClient = new HttpClient(handler);
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "TypingTestApp/Project");
             usedIdsInSession = new HashSet<string>();
             basePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -32,6 +39,19 @@ namespace TypingTest_Project.Logic
             codeLevelsPath = ResolveFilePath(CodeLevelsFileName);
 
             LoadCodeLevels();
+        }
+        private async Task<bool> InternetCheck()
+        {
+            try
+            {
+                //using (var client = new HttpClient())
+                //using (client.OpenRead("http://clients3.google.com/generate_204"))
+                using (var response = await _httpClient.GetAsync("http://clients3.google.com/generate_204", HttpCompletionOption.ResponseHeadersRead))
+                {
+                    return response.IsSuccessStatusCode;
+                }
+            }
+            catch { return false; }
         }
 
         private string ResolveFilePath(string fileName)
@@ -48,8 +68,14 @@ namespace TypingTest_Project.Logic
             {
                 return GetCodeLevel(levelNumber);
             }
-            else 
-         return await GetQuoteFromApiAsync(levelNumber);
+            else
+                if (await InternetCheck())
+                {
+                    return await GetQuoteFromApiAsync(levelNumber);
+                }
+            else            {
+                return GetQuoteFromOfflineCache(levelNumber);
+                }
         }
         private void LoadCodeLevels()
         {

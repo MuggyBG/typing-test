@@ -327,6 +327,7 @@ namespace TypingTest_Project
             btnModeExtended.TabIndex = 8;
             btnModeExtended.Text = "Hard Mode: 100 Levels";
             btnModeExtended.UseVisualStyleBackColor = true;
+            btnModeExtended.Click += btnModeExtended_Click;
             // 
             // btnModeCode
             // 

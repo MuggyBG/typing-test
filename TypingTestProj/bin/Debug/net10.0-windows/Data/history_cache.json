@@ -1,3 +1,18 @@
-{
-
-}
+[
+  {
+    "id": "NoaRFCJNzT",
+    "content": "So much technology, so little talent.",
+    "author": "Vernor Vinge",
+    "level": 1,
+    "Type": 0,
+    "IsCompleted": false
+  },
+  {
+    "id": "ptKYlB1uxnOr",
+    "content": "A leader is best when people barely know he exists, when his work is done, his aim fulfilled, they will say: we did it ourselves.",
+    "author": "Laozi",
+    "level": 2,
+    "Type": 0,
+    "IsCompleted": false
+  }
+]

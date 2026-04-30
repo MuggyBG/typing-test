@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Windows.Forms; 
 using TypingTest_Project.Logic;
 using TypingTest_Project.Models;
@@ -20,11 +21,13 @@ namespace TypingTest_Project
         private const int maxLines = 8;
         private const double PreloadNextLevelWhenRemainingFraction = 0.30;
         private sealed record Level(int LevelNumber, string Text);
-        private readonly Queue<Level> 
-            
-        _pendingLines = new();
+
+
+        private readonly Queue<Level> _pendingLines = new();
+
+
         private Level? currentLine = null;
-        private readonly Dictionary<int, LevelData> levelInfoByNumber = new();
+        private LevelData prefetchedLevelData = null;
         private Task<LevelData>? nextLevelTask = null;
         private int totalLinesInCurrentLevel = 0;
         private bool hotkeyLevelSkip = false;
@@ -37,7 +40,6 @@ namespace TypingTest_Project
         private GameEngine _engine;
         private LevelData _currentLevel;
         private bool _isGameRunning = false;
-
         private int _secondsElapsed = 0;
         private int _currentLevelNumber = 1;
         private int _totalSessionErrors = 0;
@@ -201,12 +203,10 @@ namespace TypingTest_Project
         private void InitializeLevelBuffer(int levelNumber, LevelData level)
         {
             _pendingLines.Clear();
-            levelInfoByNumber.Clear();
+            prefetchedLevelData = null;
             nextLevelTask = null;
             totalLinesInCurrentLevel = 0;
             completedLinePendingDrop = null;
-
-            levelInfoByNumber[levelNumber] = level;
 
             foreach (var line in SplitIntoLines(level.Content))
             {
@@ -436,12 +436,14 @@ namespace TypingTest_Project
             bool levelChanged = next.LevelNumber != _currentLevelNumber;
             currentLine = next;
 
-            if (levelChanged && levelInfoByNumber.TryGetValue(_currentLevelNumber, out var prevLevel))
+            if (levelChanged)
             {
                 _currentLevelNumber = next.LevelNumber;
-                if (levelInfoByNumber.TryGetValue(_currentLevelNumber, out var newLevel))
+                
+                if (prefetchedLevelData != null)
                 {
-                    _currentLevel = newLevel;
+                    _currentLevel = prefetchedLevelData;
+                    prefetchedLevelData = null;
                     labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
                 }
                 else
@@ -488,7 +490,7 @@ namespace TypingTest_Project
             try
             {
                 var nextLevel = await nextLevelTask;
-                levelInfoByNumber[nextLevelNumber] = nextLevel;
+                prefetchedLevelData = nextLevel;
                 if (nextLevel.Type == LevelType.CodeSnippet)
                 {
                     _pendingLines.Enqueue(new Level(nextLevelNumber, ""));
@@ -501,7 +503,7 @@ namespace TypingTest_Project
             catch { }
         }
 
-        private void SkipLevelHotkeyNoob()
+        private void SkipLevelHotkeyNoob()  
         {
             if (!_isGameRunning) return;
             if (hotkeyLevelSkip) return;
@@ -515,6 +517,7 @@ namespace TypingTest_Project
                 _pendingLines.Clear();
                 currentLine = null;
                 nextLevelTask = null;
+                prefetchedLevelData = null;
                 totalLinesInCurrentLevel = 0;
                 _lastInputLength = 0;
                 rtbInput.Text = "";
@@ -548,6 +551,7 @@ namespace TypingTest_Project
                 _pendingLines.Clear();
                 currentLine = null;
                 nextLevelTask = null;
+                prefetchedLevelData = null;
                 totalLinesInCurrentLevel = 0;
                 completedLinePendingDrop = null;
                 _lastInputLength = 0;

@@ -7,10 +7,6 @@
       "RelativeMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|solutionrelative:typingtestproj\\logic\\gameengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|c:\\users\\mugetsu\\source\\repos\\typing-test\\typingtestproj\\logic\\scorestorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|solutionrelative:typingtestproj\\logic\\scorestorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|c:\\users\\mugetsu\\source\\repos\\typing-test\\typingtestproj\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{735F9125-D3C1-2D6A-3A7D-BDD8E9633008}|TypingTestProj\\Typing Test Project.csproj|solutionrelative:typingtestproj\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -22,24 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ScoreStorage.cs",
-              "DocumentMoniker": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Logic\\ScoreStorage.cs",
-              "RelativeDocumentMoniker": "TypingTestProj\\Logic\\ScoreStorage.cs",
-              "ToolTip": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Logic\\ScoreStorage.cs",
-              "RelativeToolTip": "TypingTestProj\\Logic\\ScoreStorage.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAwwBgAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T21:36:52.237Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -49,20 +32,20 @@
               "RelativeDocumentMoniker": "TypingTestProj\\Logic\\GameEngine.cs",
               "ToolTip": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Logic\\GameEngine.cs",
               "RelativeToolTip": "TypingTestProj\\Logic\\GameEngine.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAcwHAAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAtwFEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-28T21:34:36.293Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Form1.cs",
               "RelativeDocumentMoniker": "TypingTestProj\\Form1.cs",
               "ToolTip": "C:\\Users\\Mugetsu\\source\\repos\\typing-test\\TypingTestProj\\Form1.cs",
               "RelativeToolTip": "TypingTestProj\\Form1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAJICAAAAAAAAAAAIwKMCAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-28T16:38:21.075Z",
               "EditorCaption": ""
