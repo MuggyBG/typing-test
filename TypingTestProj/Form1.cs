@@ -22,9 +22,7 @@ namespace TypingTest_Project
         private const double PreloadNextLevelWhenRemainingFraction = 0.30;
         private sealed record Level(int LevelNumber, string Text);
 
-
-        private readonly Queue<Level> _pendingLines = new();
-
+        private readonly Queue<Level> _pendingLines = new Queue<Level>();
 
         private Level? currentLine = null;
         private LevelData prefetchedLevelData = null;
@@ -41,13 +39,11 @@ namespace TypingTest_Project
         private LevelData _currentLevel;
         private bool _isGameRunning = false;
         private int _secondsElapsed = 0;
-        private int _currentLevelNumber = 1;
-        private int _totalSessionErrors = 0;
-        private int _totalCharsTyped = 0;
         private int _lastInputLength = 0;
         private int _levelSecondsElapsed = 0;
 
-       
+        private GameSession _session;
+
         private GameMode _currentMode = GameMode.Standard;
 
         public MainForm()
@@ -108,15 +104,19 @@ namespace TypingTest_Project
         }
 
     
-        private void btnModeStandard_Click(object sender, EventArgs e) { InitGame(GameMode.Standard); }
-        private void btnModeExtended_Click(object sender, EventArgs e) { InitGame(GameMode.Extended); }
-        private void btnModeCode_Click(object sender, EventArgs e) { InitGame(GameMode.CodeOnly); } 
-        private void btnModeEndless_Click(object sender, EventArgs e) { InitGame(GameMode.Endless); }
+        private void btnModeStandard_Click(object sender, EventArgs e) 
+        { InitGame(GameMode.Standard); }
+        private void btnModeExtended_Click(object sender, EventArgs e) 
+        { InitGame(GameMode.Extended); }
+        private void btnModeCode_Click(object sender, EventArgs e) 
+        { InitGame(GameMode.CodeOnly); } 
+        private void btnModeEndless_Click(object sender, EventArgs e) 
+        { InitGame(GameMode.Endless); }
 
         private void InitGame(GameMode mode)
         {
             _currentMode = mode;
-            _currentLevelNumber = 1;
+            _session = new GameSession(_currentMode);
 
             pnlMenu.Visible = false;
             pnlGame.Visible = true;
@@ -136,29 +136,28 @@ namespace TypingTest_Project
 
         private async void StartGame()
         {
-            if (_currentLevelNumber == 1)
+            if (_session == null || _session.CurrentLevelNumber == 1)
             {
+                _session = new GameSession(_currentMode);
                 _secondsElapsed = 0;
-                _totalSessionErrors = 0;
-                _totalCharsTyped = 0;
-                labLastScore.Text = "";
+                labLastScore.Text = ""; 
             }
 
-            if (CheckWinCondition())
+            if (_session.CheckWinCondition())
             {
                 GameOver("Congrats! You completed the mode.");
                 return;
             }
 
             _isGameRunning = true;
-
+            
             RemoveInputPlaceholder();
             rtbInput.Text = "";
             rtbInput.ReadOnly = false;
             rtbInput.Enabled = true;
             rtbInput.Focus();
 
-            if (_currentLevelNumber == 1) _secondsElapsed = 0;
+            if (_session.CurrentLevelNumber == 1) _secondsElapsed = 0;
             _levelSecondsElapsed = 0;
             gameTimer.Stop();
 
@@ -166,28 +165,27 @@ namespace TypingTest_Project
 
             try
             {
-                LevelType typeToLoad = DetermineLevelType();
+                LevelType typeToLoad = _session.DetermineLevelType();
 
                 try
                 {
-                    _currentLevel = await _engine.GetLevelAsync(_currentLevelNumber, typeToLoad);
+                    _currentLevel = await _engine.GetLevelAsync(_session.CurrentLevelNumber, typeToLoad);
                 }
                 catch
                 {
-                    _currentLevel = await _engine.GetLevelAsync(_currentLevelNumber, LevelType.CodeSnippet);
+                    _currentLevel = await _engine.GetLevelAsync(_session.CurrentLevelNumber, LevelType.CodeSnippet);
                     labLevelInfo.Text = "Offline Mode - API Error - Loaded Code Level";
                 }
-
               
-                InitializeLevelBuffer(_currentLevelNumber, _currentLevel);
+                InitializeLevelBuffer(_session.CurrentLevelNumber, _currentLevel);
                 UpdateTargetDisplayAndHighlight();
                 if (!labLevelInfo.Text.Contains("Offline"))
                 {
-                    if(_currentLevelNumber == 1)
+                    if(_session.CurrentLevelNumber == 1)
                     {
-                        labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}. Begin typing to start.";
+                        labLevelInfo.Text = $"Level {_session.CurrentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}. Begin typing to start.";
                     }
-                    else labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
+                    else labLevelInfo.Text = $"Level {_session.CurrentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
                 }
 
                 UpdateStats();
@@ -208,7 +206,7 @@ namespace TypingTest_Project
             totalLinesInCurrentLevel = 0;
             completedLinePendingDrop = null;
 
-            foreach (var line in SplitIntoLines(level.Content))
+            foreach (var line in TextHelper.SplitIntoLines(level.Content))
             {
                 _pendingLines.Enqueue(new Level(levelNumber, line));
                 totalLinesInCurrentLevel++;
@@ -221,39 +219,6 @@ namespace TypingTest_Project
             _lastInputLength = 0;
         }
 
-        private static IEnumerable<string> SplitIntoLines(string content)
-        {
-            return (content ?? string.Empty).Replace("\r\n", "\n").Replace("\r", "\n").Split('\n');
-        }
-
-        private bool CheckWinCondition()
-        {
-            switch (_currentMode)
-            {
-                case GameMode.Standard: return _currentLevelNumber > 50;
-                case GameMode.Extended: return _currentLevelNumber > 100;
-                case GameMode.CodeOnly: return _currentLevelNumber > 75;
-                case GameMode.Endless: return false;
-                default: return false;
-            }
-        }
-
-        private LevelType DetermineLevelType()
-        {
-            switch (_currentMode)
-            {
-                case GameMode.Standard:
-                    return _currentLevelNumber <= 25 ? LevelType.Quote : LevelType.CodeSnippet;
-                case GameMode.Extended:
-                    return _currentLevelNumber <= 50 ? LevelType.Quote : LevelType.CodeSnippet;
-                case GameMode.CodeOnly:
-                    return LevelType.CodeSnippet;
-                case GameMode.Endless:
-                    return (new Random().Next(0, 2) == 0) ? LevelType.Quote : LevelType.CodeSnippet;
-                default:
-                    return LevelType.Quote;
-            }
-        }
 
         private void GameOver(string message)
         {
@@ -261,20 +226,11 @@ namespace TypingTest_Project
             _isGameRunning = false;
             rtbInput.ReadOnly = true;
             SaveScoreSnapshot();
-            using (var results = new ResultForm(BuildStatsSummary(message), _isDarkMode))
+            using (var results = new ResultForm(_session.BuildStatsSummary(message), _isDarkMode))
             {
                 results.ShowDialog(this);
             }
             ShowMenu();
-        }
-
-        private string BuildStatsSummary(string message)
-        {
-            int wpm = GetCurrentWpm();
-            double accuracy = GetAccuracyPercent();
-
-            return
-                $"{message}\n\nMode: {_currentMode}\nReached Level: {_currentLevelNumber}\nTotal Time: {_secondsElapsed}s\nWPM: {wpm}\nAccuracy: {accuracy:0.0}%\nErrors: {_totalSessionErrors}";
         }
 
         private void btnThemeToggle_Click(object sender, EventArgs e)
@@ -339,12 +295,10 @@ namespace TypingTest_Project
         {
             _secondsElapsed++;
             _levelSecondsElapsed++;
-            labTimer.Text = $"Time: {_secondsElapsed}s";
 
-            double minutes = _levelSecondsElapsed / 60.0;
-            int chars = rtbInput.Text.Length;
-            int wpm = (minutes > 0) ? (int)((chars / 5.0) / minutes) : 0;
-            labWPM.Text = $"WPM: {wpm}";
+            _session.SecondsElapsed = _secondsElapsed;
+            labTimer.Text = $"Time: {_secondsElapsed}s";
+            UpdateStats();
         }
 
         private void rtbInput_TextChanged(object sender, EventArgs e)
@@ -394,7 +348,7 @@ namespace TypingTest_Project
             string typed = rtbInput.Text;
             string targetLine = currentLine.Text;
             int max = Math.Min(typed.Length, targetLine.Length);
-            SuspendDrawing(rtbTarget);
+            DrawHelper.SuspendDrawing(rtbTarget);
             int savedStart = rtbTarget.SelectionStart;
             int savedLen = rtbTarget.SelectionLength;
 
@@ -409,7 +363,7 @@ namespace TypingTest_Project
                 rtbTarget.SelectionBackColor = ok ? ThemeColor.CorrectBg : ThemeColor.ErrorBg;
             }
             rtbTarget.Select(savedStart, savedLen);
-            ResumeDrawing(rtbTarget);
+            DrawHelper.ResumeDrawing(rtbTarget);
             _lastInputLength = typed.Length;
             UpdateStats();
         }
@@ -421,8 +375,9 @@ namespace TypingTest_Project
 
             string targetLine = currentLine.Text;
             string typed = forceCorrect ? targetLine : rtbInput.Text;
-            _totalSessionErrors += CountLineErrors(typed, targetLine);
-            _totalCharsTyped += Math.Min(typed.Length, Math.Max(0, targetLine.Length));
+            int errors = TextHelper.CountLineErrors(typed, targetLine);
+            _session.TotalSessionErrors += errors;
+            _session.TotalCharsTyped += Math.Min(typed.Length, Math.Max(0, targetLine.Length));
 
             completedLinePendingDrop = _currentLevel?.Type == LevelType.CodeSnippet ? targetLine : null;
 
@@ -433,22 +388,22 @@ namespace TypingTest_Project
             }
 
             var next = _pendingLines.Dequeue();
-            bool levelChanged = next.LevelNumber != _currentLevelNumber;
+            bool levelChanged = next.LevelNumber != _session.CurrentLevelNumber;
             currentLine = next;
 
             if (levelChanged)
             {
-                _currentLevelNumber = next.LevelNumber;
+                _session.CurrentLevelNumber = next.LevelNumber;
                 
                 if (prefetchedLevelData != null)
                 {
                     _currentLevel = prefetchedLevelData;
                     prefetchedLevelData = null;
-                    labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
+                    labLevelInfo.Text = $"Level {_session.CurrentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
                 }
                 else
                 {
-                    labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode})";
+                    labLevelInfo.Text = $"Level {_session.CurrentLevelNumber} ({_currentMode})";
                 }
             }
 
@@ -457,34 +412,20 @@ namespace TypingTest_Project
             UpdateTargetDisplayAndHighlight();
         }
 
-        private static int CountLineErrors(string typed, string target)
-        {
-            typed ??= string.Empty;
-            target ??= string.Empty;
-            int errors = 0;
-            int min = Math.Min(typed.Length, target.Length);
-            for (int i = 0; i < min; i++)
-            {
-                if (typed[i] != target[i]) errors++;
-            }
-            errors += Math.Abs(typed.Length - target.Length);
-            return errors;
-        }
-
         private async void MaybePrefetchNextLevel()
         {
             if (currentLine == null) return;
             if (nextLevelTask != null) return;
 
-            int remainingInCurrentLevel = (currentLine.LevelNumber == _currentLevelNumber ? 1 : 0)
-                + _pendingLines.Count(l => l.LevelNumber == _currentLevelNumber);
+            int remainingInCurrentLevel = (currentLine.LevelNumber == _session.CurrentLevelNumber ? 1 : 0)
+                + _pendingLines.Count(l => l.LevelNumber == _session.CurrentLevelNumber);
 
             int totalInCurrentLevel = Math.Max(1, totalLinesInCurrentLevel);
             double remainingFraction = remainingInCurrentLevel / (double)totalInCurrentLevel;
             if (remainingFraction > PreloadNextLevelWhenRemainingFraction) return;
 
-            int nextLevelNumber = _currentLevelNumber + 1;
-            LevelType typeToLoad = DetermineLevelType();
+            int nextLevelNumber = _session.CurrentLevelNumber + 1;
+            LevelType typeToLoad = _session.DetermineLevelType();
 
             nextLevelTask = _engine.GetLevelAsync(nextLevelNumber, typeToLoad);
             try
@@ -495,7 +436,7 @@ namespace TypingTest_Project
                 {
                     _pendingLines.Enqueue(new Level(nextLevelNumber, ""));
                 }
-                foreach (var line in SplitIntoLines(nextLevel.Content))
+                foreach (var line in TextHelper.SplitIntoLines(nextLevel.Content))
                 {
                     _pendingLines.Enqueue(new Level(nextLevelNumber, line));
                 }
@@ -511,7 +452,7 @@ namespace TypingTest_Project
             hotkeyLevelSkip = true;
             try
             {
-                labLastScore.Text = $"Level {_currentLevelNumber} Skipped (F3). GET GOOD?";
+                labLastScore.Text = $"Level {_session.CurrentLevelNumber} Skipped (F3). GET GOOD?";
                 labLastScore.ForeColor = Color.Gold;
 
                 _pendingLines.Clear();
@@ -522,7 +463,7 @@ namespace TypingTest_Project
                 _lastInputLength = 0;
                 rtbInput.Text = "";
 
-                _currentLevelNumber++;
+                _session.CurrentLevelNumber++;
                 StartGame();
             }
             finally
@@ -545,7 +486,7 @@ namespace TypingTest_Project
             hotkeyLevelReroll = true;
             try
             {
-                labLastScore.Text = $"Level {_currentLevelNumber}. Rerolled Line";
+                labLastScore.Text = $"Level {_session.CurrentLevelNumber}. Rerolled Line";
                 labLastScore.ForeColor = Color.Gold;
 
                 _pendingLines.Clear();
@@ -557,11 +498,11 @@ namespace TypingTest_Project
                 _lastInputLength = 0;
                 rtbInput.Text = "";
 
-                LevelType typeToLoad = DetermineLevelType();
-                _currentLevel = await _engine.GetLevelAsync(_currentLevelNumber, typeToLoad);
-                InitializeLevelBuffer(_currentLevelNumber, _currentLevel);
+                LevelType typeToLoad = _session.DetermineLevelType();
+                _currentLevel = await _engine.GetLevelAsync(_session.CurrentLevelNumber, typeToLoad);
+                InitializeLevelBuffer(_session.CurrentLevelNumber, _currentLevel);
 
-                labLevelInfo.Text = $"Level {_currentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
+                labLevelInfo.Text = $"Level {_session.CurrentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
                 UpdateTargetDisplayAndHighlight();
             }
             catch (Exception ex)
@@ -574,29 +515,51 @@ namespace TypingTest_Project
             }
         }
 
+  
         private void UpdateStats()
         {
-            double minutes = _secondsElapsed / 60.0;
             int charsTypedCurrent = startPromptIsShown ? 0 : rtbInput.Text.Length;
-            int totalCharsSoFar = _totalCharsTyped + charsTypedCurrent;
-            labAccuracy.Text = $"Accuracy: {GetAccuracyPercent():0.0}%";
-            labLevel.Text = $"Level {_currentLevelNumber}";
-        }
+            int totalCharsSoFar = _session.TotalCharsTyped + charsTypedCurrent;
 
-        private int GetCurrentWpm()
-        {
-            double minutes = _secondsElapsed / 60.0;
-            if (minutes <= 0) return 0;
-            int chars = (startPromptIsShown ? 0 : rtbInput.Text.Length) + _totalCharsTyped;
-            return (int)((chars / 5.0) / minutes);
-        }
+            int liveErrors = 0;
+            if (!startPromptIsShown && currentLine != null && charsTypedCurrent > 0)
+            {
+                string typed = rtbInput.Text;
+                string target = currentLine.Text;
+                int lengthToCompare = Math.Min(typed.Length, target.Length);
 
-        private double GetAccuracyPercent()
-        {
-            int chars = (startPromptIsShown ? 0 : rtbInput.Text.Length) + _totalCharsTyped;
-            if (chars <= 0) return 100.0;
-            double correct = Math.Max(0, chars - _totalSessionErrors);
-            return (correct / chars) * 100.0;
+                for (int i = 0; i < lengthToCompare; i++)
+                {
+                    if (typed[i] != target[i])
+                    {
+                        liveErrors++;
+                    }
+                }
+                if (typed.Length > target.Length)
+                {
+                    liveErrors += (typed.Length - target.Length);
+                }
+            }
+            int totalErrorsSoFar = _session.TotalSessionErrors + liveErrors;
+
+            double liveAccuracy = 100.0;
+            if (totalCharsSoFar > 0)
+            {
+                double correctChars = Math.Max(0, totalCharsSoFar - totalErrorsSoFar);
+                liveAccuracy = (correctChars / totalCharsSoFar) * 100.0;
+            }
+            double minutes = _session.SecondsElapsed / 60.0;
+            int liveWpm = 0;
+
+            if (minutes > 0)
+            {
+                // WPM formula: (Total Characters / 5) / Minutes
+                liveWpm = (int)((totalCharsSoFar / 5.0) / minutes);
+            }
+
+            labAccuracy.Text = $"Accuracy: {liveAccuracy:0.00}%";
+            labWPM.Text = $"WPM: {liveWpm}";
+            labLevel.Text = $"Level {_session.CurrentLevelNumber}";
         }
 
         private void SaveScoreSnapshot()
@@ -606,11 +569,11 @@ namespace TypingTest_Project
                 var entry = new ScoreEntry
                 {
                     Mode = _currentMode,
-                    LevelReached = _currentLevelNumber,
+                    LevelReached = _session.CurrentLevelNumber,
                     TimeSeconds = _secondsElapsed,
-                    Wpm = GetCurrentWpm(),
-                    Accuracy = GetAccuracyPercent(),
-                    Errors = _totalSessionErrors,
+                    Wpm = _session.GetCurrentWpm(),
+                    Accuracy = _session.GetAccuracyPercent(),
+                    Errors = _session.TotalSessionErrors,
                     Timestamp = DateTime.Now
                 };
                 scoreStorage.SaveScore(entry);
@@ -624,10 +587,10 @@ namespace TypingTest_Project
         {
             int currentWPM = 0;
             int.TryParse(labWPM.Text.Replace("WPM: ", ""), out currentWPM);
-            labLastScore.Text = $"Lvl {_currentLevelNumber} Done! ({currentWPM} WPM)";
+            labLastScore.Text = $"Lvl {_session.CurrentLevelNumber} Done! ({currentWPM} WPM)";
             labLastScore.ForeColor = Color.LimeGreen;
 
-            _currentLevelNumber++;
+            _session.CurrentLevelNumber++;
             _lastInputLength = 0;
             StartGame();
         }
@@ -640,19 +603,6 @@ namespace TypingTest_Project
                 scores.ShowDialog(this);
             }
         }
-
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
-        private const int WM_SETREDRAW = 11;
-
-        public static void SuspendDrawing(Control parent) => SendMessage(parent.Handle, WM_SETREDRAW, false, 0);
-
-        public static void ResumeDrawing(Control parent)
-        {
-            SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
-            parent.Refresh();
-        }
-
         private void SetInputPlaceholder()
         {
             if (_isGameRunning) return;

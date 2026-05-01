@@ -37,15 +37,12 @@ namespace TypingTest_Project.Logic
             dataDir = Path.Combine(basePath, DataDirName);
             historyPath = ResolveFilePath(HistoryFileName);
             codeLevelsPath = ResolveFilePath(CodeLevelsFileName);
-
             LoadCodeLevels();
         }
         private async Task<bool> InternetCheck()
         {
             try
             {
-                //using (var client = new HttpClient())
-                //using (client.OpenRead("http://clients3.google.com/generate_204"))
                 using (var response = await _httpClient.GetAsync("http://clients3.google.com/generate_204", HttpCompletionOption.ResponseHeadersRead))
                 {
                     return response.IsSuccessStatusCode;
@@ -129,27 +126,49 @@ namespace TypingTest_Project.Logic
 
         private async Task<LevelData> GetQuoteFromApiAsync(int levelNumber)
         {
-            try
+            int maxRetries = 3;
+            QuotableResponse lastData = null ;
+            for (int i = 0; i < maxRetries; i++)
             {
-                string jsonResponse = await _httpClient.GetStringAsync(ApiUrl);
-                var apiData = JsonConvert.DeserializeObject<QuotableResponse>(jsonResponse);
-
-                LevelData newLevel = new LevelData
+                try
                 {
-                    Id = apiData._id,
-                    Content = apiData.content,
-                    AuthorOrDescription = apiData.author,
+                    string jsonResponse = await _httpClient.GetStringAsync(ApiUrl);
+                    var apiData = JsonConvert.DeserializeObject<QuotableResponse>(jsonResponse);
+                    if (usedIdsInSession.Contains(apiData._id)) continue;
+                    usedIdsInSession.Add(apiData._id);
+                    LevelData newLevel = new LevelData
+                    {
+                        Id = apiData._id,
+                        Content = apiData.content,
+                        AuthorOrDescription = apiData.author,
+                        LevelNumber = levelNumber,
+                        Type = LevelType.Quote
+                    };
+                    lastData = apiData;
+                    SaveToHistoryCache(newLevel);
+                    return newLevel;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"API Error: {ex.Message}\n\nInner: {ex.InnerException?.Message}", "Debug Info");
+                    return GetQuoteFromOfflineCache(levelNumber);
+                }
+            }
+            if(lastData != null)
+            {
+                usedIdsInSession.Add(lastData._id);
+                LevelData dupLevel = new LevelData
+                {
+                    Id = lastData._id,
+                    Content = lastData.content,
+                    AuthorOrDescription = lastData.author,
                     LevelNumber = levelNumber,
                     Type = LevelType.Quote
                 };
-                SaveToHistoryCache(newLevel);
-                return newLevel;
+                SaveToHistoryCache(dupLevel);
+                return dupLevel;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"API Error: {ex.Message}\n\nInner: {ex.InnerException?.Message}", "Debug Info");
-                return GetQuoteFromOfflineCache(levelNumber);
-            }
+            return GetQuoteFromOfflineCache(levelNumber);
         }
 
         private LevelData GetQuoteFromOfflineCache(int levelNumber)
