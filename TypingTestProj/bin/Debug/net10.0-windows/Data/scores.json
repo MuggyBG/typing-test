@@ -79,5 +79,41 @@
     "accuracy": 20.55,
     "errors": 495,
     "timestamp": "2026-05-01T18:20:54.2235835+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 5,
+    "timeSeconds": 53,
+    "wpm": 87,
+    "accuracy": 99.48,
+    "errors": 2,
+    "timestamp": "2026-05-01T19:49:05.9556515+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 1,
+    "timeSeconds": 0,
+    "wpm": 0,
+    "accuracy": 100.0,
+    "errors": 0,
+    "timestamp": "2026-05-01T19:49:31.7483896+03:00"
+  },
+  {
+    "mode": 2,
+    "level": 4,
+    "timeSeconds": 2,
+    "wpm": 108,
+    "accuracy": 100.0,
+    "errors": 0,
+    "timestamp": "2026-05-01T19:59:46.0819861+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 5,
+    "timeSeconds": 49,
+    "wpm": 101,
+    "accuracy": 100.0,
+    "errors": 0,
+    "timestamp": "2026-05-01T20:05:15.9977736+03:00"
   }
 ]

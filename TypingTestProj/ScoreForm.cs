@@ -12,7 +12,7 @@ namespace TypingTest_Project
 {
     public partial class ScoreForm : Form
     {
-        private readonly ScoreStorage _storage = new ScoreStorage();
+        private readonly Storage _storage = new Storage();
         public ScoreForm(bool isDarkMode)
         {
             InitializeComponent();

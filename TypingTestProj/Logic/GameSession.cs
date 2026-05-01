@@ -41,7 +41,7 @@ namespace TypingTest_Project.Logic
         }
         public string BuildStatsSummary(string msg)
         {
-            return $"{msg}\n\nWPM: {GetCurrentWpm()}  |  Accuracy: {GetAccuracyPercent():0.00}%  |  Errors: {TotalSessionErrors}";
+            return $"{msg}\nWPM: {GetCurrentWpm()}  |  Accuracy: {GetAccuracyPercent():0.00}%  |  Errors: {TotalSessionErrors}\n Difficulty: {CurrentMode.ToString()}  |  Level Reached: {CurrentLevelNumber}";
         }
 
         public bool CheckWinCondition()

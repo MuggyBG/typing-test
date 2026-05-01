@@ -32,7 +32,7 @@ namespace TypingTest_Project
         private bool hotkeyLevelReroll = false;
 
         private string? completedLinePendingDrop = null;
-        private readonly ScoreStorage scoreStorage = new ScoreStorage();
+        private readonly Storage scoreStorage = new Storage();
 
         private bool _isDarkMode = true;
         private GameEngine _engine;

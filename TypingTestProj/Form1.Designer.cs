@@ -84,9 +84,9 @@ namespace TypingTest_Project
             labHint.ForeColor = SystemColors.Control;
             labHint.Location = new Point(0, 0);
             labHint.Name = "labHint";
-            labHint.Size = new Size(140, 60);
+            labHint.Size = new Size(270, 60);
             labHint.TabIndex = 2;
-            labHint.Text = "F1 - Reroll line      F3 - Complete level Esc - End Game";
+            labHint.Text = "F1 - Reroll line          F3 - Complete level Enter - End line early                             Esc - End Game ";
             // 
             // btnThemeToggle
             // 
