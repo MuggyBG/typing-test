@@ -18,8 +18,8 @@ namespace TypingTest_Project
     {
         private const string startPromptText = "Begin typing to start.";
         private bool startPromptIsShown = false;
-        private const int maxLines = 8;
-        private const double PreloadNextLevelWhenRemainingFraction = 0.30;
+        private const int maxLines = 2;
+        private const double PreloadNextLevelWhenRemainingFraction = 0.60;
         private sealed record Level(int LevelNumber, string Text);
 
         private readonly Queue<Level> _pendingLines = new Queue<Level>();
@@ -440,6 +440,7 @@ namespace TypingTest_Project
                 {
                     _pendingLines.Enqueue(new Level(nextLevelNumber, line));
                 }
+                UpdateTargetDisplayAndHighlight();
             }
             catch { }
         }
@@ -503,7 +504,7 @@ namespace TypingTest_Project
                 InitializeLevelBuffer(_session.CurrentLevelNumber, _currentLevel);
 
                 labLevelInfo.Text = $"Level {_session.CurrentLevelNumber} ({_currentMode}): {_currentLevel.AuthorOrDescription}";
-                UpdateTargetDisplayAndHighlight();
+                BeginInvoke(new Action(() => UpdateTargetDisplayAndHighlight()));
             }
             catch (Exception ex)
             {

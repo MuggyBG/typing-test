@@ -115,5 +115,41 @@
     "accuracy": 100.0,
     "errors": 0,
     "timestamp": "2026-05-01T20:05:15.9977736+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 7,
+    "timeSeconds": 66,
+    "wpm": 37,
+    "accuracy": 98.05,
+    "errors": 4,
+    "timestamp": "2026-05-04T14:57:36.7983917+03:00"
+  },
+  {
+    "mode": 2,
+    "level": 2,
+    "timeSeconds": 17,
+    "wpm": 0,
+    "accuracy": 100.0,
+    "errors": 0,
+    "timestamp": "2026-05-04T14:59:05.7861345+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 2,
+    "timeSeconds": 15,
+    "wpm": 94,
+    "accuracy": 81.2,
+    "errors": 22,
+    "timestamp": "2026-05-04T17:49:31.9977581+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 51,
+    "timeSeconds": 23,
+    "wpm": 101,
+    "accuracy": 0.0,
+    "errors": 3648,
+    "timestamp": "2026-05-04T19:12:52.3739519+03:00"
   }
 ]

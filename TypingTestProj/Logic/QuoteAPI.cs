@@ -58,7 +58,6 @@ namespace Typing_Test_Project.Logic
                 }
                 catch (Exception ex)
                 {
-                    // If it fails, we let the Engine handle falling back to offline mode
                     throw new Exception($"API Error: {ex.Message}\n\nInner: {ex.InnerException?.Message}");
                 }
             }
