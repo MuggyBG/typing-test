@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using TypingTest_Project.Models;
 
-namespace Typing_Test_Project.Logic
+namespace TypingTest_Project.Logic
 {
     public class QuoteAPI
     {
@@ -34,14 +34,14 @@ namespace Typing_Test_Project.Logic
         public async Task<LevelData> GetQuoteFromApiAsync(int levelNumber, HashSet<string> usedIdsInSession)
         {
             int maxRetries = 3;
-            QuotableResponse lastData = null;
+            QuoteResponse lastData = null;
 
             for (int i = 0; i < maxRetries; i++)
             {
                 try
                 {
                     string jsonResponse = await _httpClient.GetStringAsync(ApiUrl);
-                    var apiData = JsonConvert.DeserializeObject<QuotableResponse>(jsonResponse);
+                    var apiData = JsonConvert.DeserializeObject<QuoteResponse>(jsonResponse);
 
                     if (usedIdsInSession.Contains(apiData._id)) continue;
 

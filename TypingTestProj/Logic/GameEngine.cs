@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
-using Typing_Test_Project.Logic;
+using TypingTest_Project.Logic;
 using TypingTest_Project.Models;
 
 namespace TypingTest_Project.Logic
@@ -40,9 +40,14 @@ namespace TypingTest_Project.Logic
 
                 }
             }
+
             var offlineLevel = _storage.GetQuoteFromOfflineCache(levelNumber, _usedIdsInSession);
             _usedIdsInSession.Add(offlineLevel.Id);
             return offlineLevel; 
+        }
+        public void ClearSessionCache()
+        {
+            _usedIdsInSession.Clear();
         }
     }
 }

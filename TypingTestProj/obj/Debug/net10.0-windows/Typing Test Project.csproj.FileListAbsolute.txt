@@ -45,3 +45,27 @@ C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windo
 C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.pdb
 C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.genruntimeconfig.cache
 C:\Users\Mugetsu\source\repos\typing-test\TypingTestProj\obj\Debug\net10.0-windows\ref\Typing Test Project.dll
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.exe
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Data\code_levels.json
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Data\history_cache.json
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.deps.json
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.runtimeconfig.json
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.dll
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Typing Test Project.pdb
+C:\GitHub\typing-test\TypingTestProj\bin\Debug\net10.0-windows\Newtonsoft.Json.dll
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.csproj.AssemblyReference.cache
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\TypingTest_Project.MainForm.resources
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\TypingTest_Project.ResultForm.resources
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\TypingTest_Project.ScoreForm.resources
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.csproj.GenerateResource.cache
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.AssemblyInfoInputs.cache
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.AssemblyInfo.cs
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.csproj.CoreCompileInputs.cache
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.sourcelink.json
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing T.8B4B7BD9.Up2Date
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.dll
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\refint\Typing Test Project.dll
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.pdb
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\Typing Test Project.genruntimeconfig.cache
+C:\GitHub\typing-test\TypingTestProj\obj\Debug\net10.0-windows\ref\Typing Test Project.dll

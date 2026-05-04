@@ -151,5 +151,23 @@
     "accuracy": 0.0,
     "errors": 3648,
     "timestamp": "2026-05-04T19:12:52.3739519+03:00"
+  },
+  {
+    "mode": 0,
+    "level": 3,
+    "timeSeconds": 26,
+    "wpm": 81,
+    "accuracy": 94.29,
+    "errors": 10,
+    "timestamp": "2026-05-05T01:50:48.4987245+03:00"
+  },
+  {
+    "mode": 3,
+    "level": 381,
+    "timeSeconds": 27,
+    "wpm": 100,
+    "accuracy": 57.59,
+    "errors": 95,
+    "timestamp": "2026-05-05T01:53:25.7162215+03:00"
   }
 ]

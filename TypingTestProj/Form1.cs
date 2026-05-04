@@ -18,7 +18,7 @@ namespace TypingTest_Project
     {
         private const string startPromptText = "Begin typing to start.";
         private bool startPromptIsShown = false;
-        private const int maxLines = 2;
+        private const int maxLines = 5;
         private const double PreloadNextLevelWhenRemainingFraction = 0.60;
         private sealed record Level(int LevelNumber, string Text);
 
@@ -126,7 +126,7 @@ namespace TypingTest_Project
             pnlGame.BringToFront();
             rtbInput.Focus();       
 
-            StartGame();
+            _ = StartGame();
         }
 
         private void btnFinish_Click(object sender, EventArgs e)
@@ -134,7 +134,7 @@ namespace TypingTest_Project
             GameOver("Game finished.");
         }
 
-        private async void StartGame()
+        private async Task StartGame()
         {
             if (_session == null || _session.CurrentLevelNumber == 1)
             {
@@ -189,6 +189,8 @@ namespace TypingTest_Project
                 }
 
                 UpdateStats();
+                if(_session.CurrentLevelNumber == 1) _secondsElapsed = 0;
+                if(_session.CurrentLevelNumber > 1) gameTimer.Start();
             }
             catch (Exception ex)
             {
@@ -196,6 +198,7 @@ namespace TypingTest_Project
                 MessageBox.Show("Error: " + ex.Message);
                 ShowMenu();
             }
+
         }
 
         private void InitializeLevelBuffer(int levelNumber, LevelData level)
@@ -226,6 +229,7 @@ namespace TypingTest_Project
             _isGameRunning = false;
             rtbInput.ReadOnly = true;
             SaveScoreSnapshot();
+            _engine.ClearSessionCache();
             using (var results = new ResultForm(_session.BuildStatsSummary(message), _isDarkMode))
             {
                 results.ShowDialog(this);
@@ -320,13 +324,9 @@ namespace TypingTest_Project
         {
             if (currentLine == null) return;
             MaybePrefetchNextLevel();
-            if (_currentLevel?.Type == LevelType.CodeSnippet && completedLinePendingDrop != null)
+            if (_currentLevel?.Type == LevelType.CodeSnippet)
             {
-                int dropAt = Math.Max(1, currentLine.Text.Length / 2);
-                if (rtbInput.Text.Length >= dropAt)
-                {
-                    completedLinePendingDrop = null;
-                }
+                completedLinePendingDrop = null;
             }
             var lines = new List<string>(maxLines);
             int highlightOffset = 0;
@@ -465,7 +465,7 @@ namespace TypingTest_Project
                 rtbInput.Text = "";
 
                 _session.CurrentLevelNumber++;
-                StartGame();
+                _ = StartGame();
             }
             finally
             {
@@ -586,14 +586,13 @@ namespace TypingTest_Project
 
         private void LevelComplete()
         {
-            int currentWPM = 0;
-            int.TryParse(labWPM.Text.Replace("WPM: ", ""), out currentWPM);
+            int currentWPM = _session.GetCurrentWpm();
             labLastScore.Text = $"Lvl {_session.CurrentLevelNumber} Done! ({currentWPM} WPM)";
             labLastScore.ForeColor = Color.LimeGreen;
 
             _session.CurrentLevelNumber++;
             _lastInputLength = 0;
-            StartGame();
+            _ = StartGame();
         }
 
 
@@ -643,10 +642,6 @@ namespace TypingTest_Project
                 if (startPromptIsShown)
                 {
                     RemoveInputPlaceholder();
-                }
-                if (_isGameRunning && !gameTimer.Enabled)
-                {
-                    gameTimer.Start();
                 }
             };
 
